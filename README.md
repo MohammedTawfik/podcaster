@@ -42,3 +42,14 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/deploym
 - Sign up and create an account
 - Follow the steps in this url https://docs.convex.dev/quickstart/nextjs
 - To Define database schema check this URL https://docs.convex.dev/database/schemas
+- Integrate Clerk with Convex https://docs.convex.dev/auth/clerk
+- To create web hocks to link Clerk with Convex follow the following steps
+  - go to [convex.dev/templates](https://www.convex.dev/templates?search=clerk)
+  - Search for Clerk and click on Clerk Starter template
+  - Click on "View Repo" to go to the original repo
+  - Create a file called "http.ts" under convex folder
+  - Copy this file content https://github.com/thomasballinger/convex-clerk-users-table/blob/main/convex/http.ts to "http.ts" file
+
+### Clerk
+
+- New middleware architecture https://clerk.com/docs/upgrade-guides/core-2/nextjs#new-middleware-architecture
