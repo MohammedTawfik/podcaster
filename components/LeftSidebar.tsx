@@ -30,7 +30,7 @@ const LeftSidebar = () => {
               key={link.label}
               href={link.route}
               className={cn(
-                "flex cursor-pointer items-center gap-3 py-4 justify-center max-lg:justify-start",
+                "flex cursor-pointer items-center gap-3 py-4 justify-start max-lg:justify-start",
                 isActive ? "bg-nav-focus border-r-4 border-orange-1" : ""
               )}
             >
