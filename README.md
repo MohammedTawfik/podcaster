@@ -53,3 +53,16 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/deploym
 ### Clerk
 
 - New middleware architecture https://clerk.com/docs/upgrade-guides/core-2/nextjs#new-middleware-architecture
+
+### Create Clerk WebHook key
+
+1. As mentioned in Convex Docs https://docs.convex.dev/functions/http-actions the HTTP actions are exposed at https://<your deployment name>.convex.site (e.g. https://happy-animal-123.convex.site).
+2. Check **_.env.local_** and get the value of **NEXT_PUBLIC_CONVEX_URL** and replace _cloud_ with _site_
+3. Go to Clerk dashboard and click on **Webhooks** from the right side menu and click **Add Endpoint**
+4. Use the url that you get from step **2** and add _/clerk_ at the end for the **Endpoint URL** field (url must look like https://yourdeploymentname.convex.site/clerk)
+   1. /clerk added because this is the path that is configured in **http.ts** file in http.route method to listen to.
+5. Select the events you want tot listen to
+6. Click Create
+7. When the webhook created you will be redirected to another page search for **Signing Secret** and copy its value to be used as WebHook Secret
+8. Add new item in .env.local and store the WebHook Secret and update the name in **http.ts**
+9. Go to your application on Convex and click **Settings** from the left side menu then **Environment Variables** and copy the key and value of WebHook Secret from **.env.local** file and save

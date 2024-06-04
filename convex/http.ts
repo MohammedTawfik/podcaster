@@ -45,7 +45,7 @@ const handleClerkWebhook = httpAction(async (ctx, request) => {
 
 const http = httpRouter();
 http.route({
-  path: "/clerk-users-webhook",
+  path: "/clerk",
   method: "POST",
   handler: handleClerkWebhook,
 });
