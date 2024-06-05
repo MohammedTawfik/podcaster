@@ -50,6 +50,12 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/deploym
   - Create a file called "http.ts" under convex folder
   - Copy this file content https://github.com/thomasballinger/convex-clerk-users-table/blob/main/convex/http.ts to "http.ts" file
 
+#### Actions
+
+- Actions used to call third party services
+- (Docs)[https://docs.convex.dev/functions/actions]
+- Will be used in this project to call OpenAi api
+
 ### Clerk
 
 - New middleware architecture https://clerk.com/docs/upgrade-guides/core-2/nextjs#new-middleware-architecture
@@ -72,3 +78,17 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/deploym
 ### Form
 
 - docs https://ui.shadcn.com/docs/components/form
+
+### Toast
+
+- to update the toast style go to **toast.tsx** file under "components/ui" and set your styles in the _variant_ value
+
+## OpenAi
+
+- Used to handle audio and thumbnail generation
+- Install using hte following command `npm install openai`
+
+## UploadStuff
+
+- Used to upload files to Convex
+- (Docs)[https://uploadstuff.dev/introduction]
