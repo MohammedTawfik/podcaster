@@ -136,6 +136,7 @@ const GeneratePodcastThumbnail = ({
             <Button
               className="text-16 bg-orange-1 text-white-1 py-4 font-bold"
               onClick={generatePodcastThumbnail}
+              type="button"
             >
               {isImageProcessing ? (
                 <>
