@@ -8,10 +8,10 @@ import { Textarea } from "./ui/textarea";
 import { Input } from "./ui/input";
 import Image from "next/image";
 import { useToast } from "./ui/use-toast";
-import { useMutation } from "convex/react";
+import { useAction, useMutation } from "convex/react";
 import { useUploadFiles } from "@xixixao/uploadstuff/react";
 import { api } from "@/convex/_generated/api";
-import useGeneratePodcastThumbnail from "@/hooks/GeneratePodcastThumbnailHook";
+import { v4 as uuidv4 } from "uuid";
 
 const GeneratePodcastThumbnail = ({
   setImage,
@@ -27,7 +27,9 @@ const GeneratePodcastThumbnail = ({
   const generateUploadUrl = useMutation(api.files.generateUploadUrl);
   const getImageUrl = useMutation(api.podcasts.getPodcastUrl);
   const { startUpload } = useUploadFiles(generateUploadUrl);
-
+  const generateThumbnailAction = useAction(
+    api.openai_actions.generatePodcastThumbnailAction
+  );
   const handleImage = async (blob: Blob, fileName: string) => {
     setIsImageProcessing(true);
     setImage("");
@@ -54,7 +56,25 @@ const GeneratePodcastThumbnail = ({
       setIsImageProcessing(false);
     }
   };
-  const generatePodcastThumbnail = async () => {};
+
+  const generatePodcastThumbnail = async () => {
+    try {
+      setIsImageProcessing(true);
+      const response = await generateThumbnailAction({ prompt: imagePrompt });
+      const blob = new Blob([response], { type: "image/png" });
+      handleImage(blob, `thumbnail-${uuidv4()}.png`);
+      setIsImageProcessing(false);
+    } catch (error) {
+      console.log(error);
+      toast({
+        title: "GenerateThumbnail Error",
+        description: "An error occurred while generating the thumbnail",
+        variant: "destructive",
+      });
+      setIsImageProcessing(false);
+    }
+  };
+
   const uploadImage = async (e: React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
     try {
@@ -108,13 +128,12 @@ const GeneratePodcastThumbnail = ({
               className="input-class font-light focus-visible:ring-offset-orange-1"
               placeholder="Provide text to generate thumbnail"
               rows={5}
-              value={prompt}
+              value={imagePrompt}
               onChange={(e) => setImagePrompt(e.target.value)}
             />
           </div>
           <div className="w-full max-w-[200px]">
             <Button
-              type="submit"
               className="text-16 bg-orange-1 text-white-1 py-4 font-bold"
               onClick={generatePodcastThumbnail}
             >
