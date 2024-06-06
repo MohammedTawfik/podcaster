@@ -31,6 +31,10 @@ import GeneratePodcast from "@/components/GeneratePodcast";
 import GeneratePodcastThumbnail from "@/components/GeneratePodcastThumbnail";
 import { Loader } from "lucide-react";
 import { Id } from "@/convex/_generated/dataModel";
+import { useToast } from "@/components/ui/use-toast";
+import { api } from "@/convex/_generated/api";
+import { useMutation } from "convex/react";
+import { useRouter } from "next/navigation";
 
 const formSchema = z.object({
   podcastTitle: z.string().min(2, {
@@ -42,6 +46,7 @@ const formSchema = z.object({
 });
 
 const CreatePodcast = () => {
+  const router = useRouter();
   const [selectedVoice, setSelectedVoice] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [imagePrompt, setImagePrompt] = useState("");
@@ -57,7 +62,8 @@ const CreatePodcast = () => {
   const [audioDuration, setAudioDuration] = useState(0);
 
   const [voicePrompt, setVoicePrompt] = useState("");
-
+  const { toast } = useToast();
+  const createPodcast = useMutation(api.podcasts.createPodcast);
   // 1. Define your form.
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -68,10 +74,47 @@ const CreatePodcast = () => {
   });
 
   // 2. Define a submit handler.
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
-    console.log(values);
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    try {
+      setIsSubmitting(true);
+      if (!audioUrl || !imageUrl || !selectedVoice) {
+        toast({
+          title: "Missing Fields",
+          description: "Please fill all the fields",
+          variant: "destructive",
+        });
+        setIsSubmitting(false);
+        throw new Error("Please fill all the fields");
+      }
+
+      const createdPodcast = await createPodcast({
+        title: values.podcastTitle,
+        description: values.podcastDescription,
+        audioUrl: audioUrl,
+        audioStorageId: audioStorageId!,
+        imageUrl: imageUrl,
+        imageStorageId: imageStorageId!,
+        voicePrompt: voicePrompt,
+        imagePrompt: imagePrompt,
+        voiceType: selectedVoice,
+        duration: audioDuration,
+        views: 0,
+      });
+      setIsSubmitting(false);
+      toast({
+        title: "Podcast Created",
+        description: "Podcast has been created successfully",
+      });
+      router.push("/");
+    } catch (error) {
+      console.error(error);
+      toast({
+        title: "Error Generating podcast",
+        description: "Failed to create a podcast",
+        variant: "destructive",
+      });
+      setIsSubmitting(false);
+    }
   }
 
   return (
