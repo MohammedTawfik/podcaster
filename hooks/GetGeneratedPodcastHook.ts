@@ -52,7 +52,7 @@ const useGeneratePodcast = ({
       const storageId = (uploadStatus[0].response as any).storageId;
       setAudioStorageId(storageId);
       const audioUrl = await getAudioUrl({ storageId });
-      setAudio(audioUrl);
+      setAudio(audioUrl!);
       setIsGenerating(false);
       toast({
         title: "Podcast Generated",

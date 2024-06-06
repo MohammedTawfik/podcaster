@@ -1,7 +1,7 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
+import { set, useForm } from "react-hook-form";
 import { z } from "zod";
 
 import { Button } from "@/components/ui/button";
@@ -171,7 +171,13 @@ const CreatePodcast = () => {
               voicePrompt={voicePrompt}
             />
 
-            <GeneratePodcastThumbnail />
+            <GeneratePodcastThumbnail
+              setImagePrompt={setImagePrompt}
+              setImage={setImageUrl}
+              imagePrompt={imagePrompt}
+              setImageStorageId={setImageStorageId}
+              imageUrl={imageUrl}
+            />
             <div className="mt-10 w-full">
               <Button
                 type="submit"

@@ -71,7 +71,7 @@ export interface GeneratePodcastProps {
 export interface GenerateThumbnailProps {
   setImage: Dispatch<SetStateAction<string>>;
   setImageStorageId: Dispatch<SetStateAction<Id<"_storage"> | null>>;
-  image: string;
+  imageUrl: string;
   imagePrompt: string;
   setImagePrompt: Dispatch<SetStateAction<string>>;
 }
