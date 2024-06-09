@@ -65,3 +65,23 @@ export const getPodcastById = query({
     return podcast;
   },
 });
+
+// this query will get all the podcasts based on the voiceType of the podcast , which we are showing in the Similar Podcasts section.
+export const getPodcastByVoiceType = query({
+  args: {
+    podcastId: v.id("podcasts"),
+  },
+  handler: async (ctx, args) => {
+    const podcast = await ctx.db.get(args.podcastId);
+
+    return await ctx.db
+      .query("podcasts")
+      .filter((q) =>
+        q.and(
+          q.eq(q.field("voiceType"), podcast?.voiceType),
+          q.neq(q.field("_id"), args.podcastId)
+        )
+      )
+      .collect();
+  },
+});
