@@ -85,3 +85,21 @@ export const getPodcastByVoiceType = query({
       .collect();
   },
 });
+
+export const deletePodcast = mutation({
+  args: {
+    podcastId: v.id("podcasts"),
+    imageStorageId: v.id("_storage"),
+    audioStorageId: v.id("_storage"),
+  },
+  handler: async (ctx, args) => {
+    const podcast = await ctx.db.get(args.podcastId);
+
+    if (!podcast) {
+      throw new ConvexError("Podcast not found");
+    }
+    await ctx.storage.delete(args.imageStorageId);
+    await ctx.storage.delete(args.audioStorageId);
+    await ctx.db.delete(args.podcastId);
+  },
+});
