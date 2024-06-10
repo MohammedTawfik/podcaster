@@ -27,8 +27,6 @@ const PodcastDetails = ({
 
   if (!podcast || !similarPodcasts) {
     return <LoaderSpinner />;
-  } else {
-    console.log(podcast);
   }
   return (
     <section className="flex flex-col w-full">

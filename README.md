@@ -85,3 +85,9 @@ It is a web application supporting handling back-end functionality using typescr
 
 - Used to upload files to Convex
 - (Docs)[https://uploadstuff.dev/introduction]
+
+## Embla Carousel
+
+- https://www.embla-carousel.com/examples/generator/
+- `npm install embla-carousel-react --save`
+- `npm install embla-carousel-autoplay --save`
