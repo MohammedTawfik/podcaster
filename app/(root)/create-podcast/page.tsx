@@ -35,6 +35,7 @@ import { useToast } from "@/components/ui/use-toast";
 import { api } from "@/convex/_generated/api";
 import { useMutation } from "convex/react";
 import { useRouter } from "next/navigation";
+import { VoiceType } from "@/types";
 
 const formSchema = z.object({
   podcastTitle: z.string().min(2, {
@@ -209,7 +210,7 @@ const CreatePodcast = () => {
               setAudio={setAudioUrl}
               setVoicePrompt={setVoicePrompt}
               setAudioDuration={setAudioDuration}
-              voiceType={selectedVoice}
+              voiceType={selectedVoice as VoiceType}
               audioUrl={audioUrl}
               voicePrompt={voicePrompt}
             />
