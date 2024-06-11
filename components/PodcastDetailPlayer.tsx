@@ -5,12 +5,12 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 import { api } from "@/convex/_generated/api";
-//import { useAudio } from "@/providers/AudioProvider";
 import { PodcastDetailPlayerProps } from "@/types";
 
 import { Button } from "./ui/button";
 import { useToast } from "./ui/use-toast";
 import LoaderSpinner from "./LoaderSpinner";
+import { useAudio } from "@/providers/AudioProvider";
 
 const PodcastDetailPlayer = ({
   audioUrl,
@@ -25,7 +25,7 @@ const PodcastDetailPlayer = ({
   authorId,
 }: PodcastDetailPlayerProps) => {
   const router = useRouter();
-  //const { setAudio } = useAudio();
+  const { setAudio } = useAudio();
   const { toast } = useToast();
   const [isDeleting, setIsDeleting] = useState(false);
   const deletePodcast = useMutation(api.podcasts.deletePodcast);
@@ -46,15 +46,16 @@ const PodcastDetailPlayer = ({
     }
   };
 
-  //   const handlePlay = () => {
-  //     setAudio({
-  //       title: podcastTitle,
-  //       audioUrl,
-  //       imageUrl,
-  //       author,
-  //       podcastId,
-  //     });
-  //   };
+  const handlePlay = () => {
+    console.log("Playing podcast");
+    setAudio({
+      title: title,
+      audioUrl,
+      imageUrl,
+      author,
+      podcastId,
+    });
+  };
 
   if (!imageUrl || !authorImageUrl) return <LoaderSpinner />;
 
@@ -79,19 +80,19 @@ const PodcastDetailPlayer = ({
                 router.push(`/profile/${authorId}`);
               }}
             >
-              {/* <Image
+              <Image
                 src={authorImageUrl}
                 width={30}
                 height={30}
                 alt="Caster icon"
                 className="size-[30px] rounded-full object-cover"
-              /> */}
+              />
               <h2 className="text-16 font-normal text-white-3">{author}</h2>
             </figure>
           </article>
 
           <Button
-            onClick={() => {}}
+            onClick={handlePlay}
             className="text-16 w-full max-w-[250px] bg-orange-1 font-extrabold text-white-1"
           >
             <Image
@@ -99,7 +100,7 @@ const PodcastDetailPlayer = ({
               width={20}
               height={20}
               alt="random play"
-            />{" "}
+            />
             &nbsp; Play podcast
           </Button>
         </div>

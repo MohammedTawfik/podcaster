@@ -76,6 +76,10 @@ It is a web application supporting handling back-end functionality using typescr
 
 - to update the toast style go to **toast.tsx** file under "components/ui" and set your styles in the _variant_ value
 
+### Progress
+
+- to be used in the player
+
 ## OpenAi
 
 - Used to handle audio and thumbnail generation
